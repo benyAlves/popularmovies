@@ -1,5 +1,9 @@
 package com.udacity.maluleque.popularmovies.data;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.util.Log;
 
@@ -12,16 +16,19 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class NetworkUtils {
-    private static final String PARAM_QUERY = "movie/popular";
-    private static final String PARAM_SORT = "";
-    private static final String TAG = "NetworkUtils";
+
+    public static final String POPULAR_MOVIES_ENDPPOINT = "movie/popular";
+    public static final String TOP_RATED_MOVIES_ENDPPOINT = "movie/top_rated";
     private static final String PARAM_API_KEY = "api_key";
     private static final String API_KEY = "2071442523ce286868d10f51dfb50a9d";
     private static String BASE_URL = "http://api.themoviedb.org/3";
 
-    public static URL buildUrl() {
-        Uri buildUri = Uri.parse(BASE_URL).buildUpon()
-                .appendEncodedPath(PARAM_QUERY)
+    private static final String TAG = "NetworkUtils";
+
+    public static URL buildUrl(String endPoint) {
+        Uri buildUri = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendEncodedPath(endPoint)
                 .appendQueryParameter(PARAM_API_KEY, API_KEY)
                 .build();
 
@@ -53,5 +60,27 @@ public class NetworkUtils {
     private static String readStream(InputStream in) {
         Scanner s = new Scanner(in).useDelimiter("\\A");
         return s.hasNext() ? s.next() : null;
+    }
+
+    /*
+     *
+     * This method checks if mobile has internet connection
+     *
+     * @param context   Android Context to access preferences and resources
+     * */
+    public static boolean hasInternetConnection(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        Network netInfo = cm.getActiveNetwork();
+
+        if (netInfo == null) {
+            return false;
+        }
+
+        NetworkCapabilities networkCapabilities =
+                cm.getNetworkCapabilities(netInfo);
+
+        return networkCapabilities != null
+                && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
     }
 }
