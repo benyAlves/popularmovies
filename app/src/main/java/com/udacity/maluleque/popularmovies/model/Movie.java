@@ -1,6 +1,9 @@
 package com.udacity.maluleque.popularmovies.model;
 
-public class Movie {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Movie implements Parcelable {
 
     private long id;
     private String originalTitle;
@@ -21,6 +24,42 @@ public class Movie {
 
     public Movie() {
     }
+
+    protected Movie(Parcel in) {
+        id = in.readLong();
+        originalTitle = in.readString();
+        posterPath = in.readString();
+        synopsis = in.readString();
+        rating = in.readDouble();
+        releaseDate = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(originalTitle);
+        dest.writeString(posterPath);
+        dest.writeString(synopsis);
+        dest.writeDouble(rating);
+        dest.writeString(releaseDate);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getOriginalTitle() {
         return originalTitle;

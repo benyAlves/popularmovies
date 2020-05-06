@@ -12,11 +12,16 @@ import java.util.List;
 public class DataUtils {
 
 
-    private static final String BASE_URL = "http://image.tmdb.org/t/p/";
+    private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
     private static final String SIZE = "w185";
 
-    public static List<Movie> parseJson(String json) {
-        List<Movie> movies = new ArrayList<>();
+    /*
+    * @param json Response from network request
+    *
+    * @return Java List of Movie objects
+    * */
+    public static ArrayList<Movie> parseJson(String json) {
+        ArrayList<Movie> movies = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONArray results = jsonObject.getJSONArray("results");
@@ -39,6 +44,6 @@ public class DataUtils {
     }
 
     private static String buildPosterUrl(String posterPath) {
-        return BASE_URL.concat(SIZE).concat(posterPath);
+        return IMAGE_BASE_URL.concat(SIZE).concat(posterPath);
     }
 }
