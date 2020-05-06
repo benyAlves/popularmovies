@@ -38,6 +38,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Movie movie = movies.get(position);
         Picasso.get()
                 .load(movie.getPosterPath())
+                .fit()
                 .into(holder.moviePosterImageView);
     }
 
@@ -52,7 +53,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
-            moviePosterImageView = (ImageView) itemView.findViewById(R.id.movie_poster);
+            moviePosterImageView = itemView.findViewById(R.id.movie_poster);
+            itemView.setOnClickListener(this);
         }
 
 

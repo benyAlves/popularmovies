@@ -7,6 +7,10 @@ import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
+import com.udacity.maluleque.popularmovies.R;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,12 +24,14 @@ public class NetworkUtils {
     public static final String POPULAR_MOVIES_ENDPPOINT = "movie/popular";
     public static final String TOP_RATED_MOVIES_ENDPPOINT = "movie/top_rated";
     private static final String PARAM_API_KEY = "api_key";
-    private static final String API_KEY = "2071442523ce286868d10f51dfb50a9d";
+    private static String API_KEY;
     private static String BASE_URL = "http://api.themoviedb.org/3";
 
     private static final String TAG = "NetworkUtils";
 
-    public static URL buildUrl(String endPoint) {
+    public static URL buildUrl(String endPoint, Context context) {
+        API_KEY = context.getString(R.string.themoviedb_api_key);
+
         Uri buildUri = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendEncodedPath(endPoint)
