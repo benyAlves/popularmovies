@@ -3,13 +3,24 @@ package com.udacity.maluleque.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Movie implements Parcelable {
 
+    @PrimaryKey
     private long id;
+    @ColumnInfo(name = "original_title")
     private String originalTitle;
+    @ColumnInfo(name = "poster_path")
     private String posterPath;
+    @ColumnInfo(name = "synopsis")
     private String synopsis;
+    @ColumnInfo(name = "rating")
     private double rating;
+    @ColumnInfo(name = "release_date")
     private String releaseDate;
 
     public Movie(long id, String originalTitle, String posterPath, String synopsis, double rating, String releaseDate) {
