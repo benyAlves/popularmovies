@@ -13,15 +13,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.udacity.maluleque.popularmovies.data.DataUtils;
 import com.udacity.maluleque.popularmovies.data.NetworkUtils;
+import com.udacity.maluleque.popularmovies.database.AppDatabase;
 import com.udacity.maluleque.popularmovies.model.Movie;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieItemClickListener {
 
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar progressBar;
     private RecyclerView moviesRecyclerView;
     private TextView textViewErrorMessage;
+    private AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         setContentView(R.layout.activity_main);
 
         moviesRecyclerView = findViewById(R.id.movies_recycler_view);
+        database = AppDatabase.getInstance(getApplicationContext());
 
         /*Get activity current orientation*/
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -100,6 +106,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
+    private void retriveFavoriteMovies() {
+        LiveData<List<Movie>> allFavoriteMovies = database.MovieDao().getAllFavoriteMovies();
+        allFavoriteMovies.observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+
+            }
+        });
+    }
+
+
 
     @Override
     public void onMovieItemClicked(int movieIndex) {
@@ -113,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         MovieAdapter movieAdapter = new MovieAdapter(movieList, MainActivity.this);
         moviesRecyclerView.setAdapter(movieAdapter);
     }
+
 
     private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);

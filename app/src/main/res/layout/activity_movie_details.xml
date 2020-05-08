@@ -36,16 +36,27 @@
             app:layout_constraintTop_toBottomOf="@+id/posterImageView"
             tools:text="Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)" />
 
+        <Button
+            android:id="@+id/buttonAddAsFavorite"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/add_as_favorite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal"
             android:padding="4dp"
             app:layout_constraintEnd_toEndOf="@+id/textViewName"
             app:layout_constraintStart_toStartOf="@+id/textViewName"
-            app:layout_constraintTop_toBottomOf="@+id/textViewName">
+            app:layout_constraintTop_toBottomOf="@+id/buttonAddAsFavorite">
 
             <TextView
                 android:id="@+id/textViewRating"

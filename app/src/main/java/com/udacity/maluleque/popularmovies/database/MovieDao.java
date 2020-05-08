@@ -1,5 +1,6 @@
 package com.udacity.maluleque.popularmovies.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface MovieDao {
 
     @Query("SELECT * FROM movie")
-    List<Movie> getAllFavoriteMovies();
+    LiveData<List<Movie>> getAllFavoriteMovies();
 
     @Query("SELECT * FROM movie WHERE id = :id")
     Movie findById(long id);

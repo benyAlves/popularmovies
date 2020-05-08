@@ -87,4 +87,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewName"
         tools:text=" ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion." />
 
+    <Button
+        android:id="@+id/buttonAddAsFavorite"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/add_as_favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

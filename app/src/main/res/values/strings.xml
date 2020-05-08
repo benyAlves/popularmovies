@@ -4,4 +4,6 @@
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
     <string name="title_activity_movie_details">Movie Details</string>
+    <string name="add_as_favorite">Add AS Favorite</string>
+    <string name="favorite_movies">Favorite Movies</string>
 </resources>
