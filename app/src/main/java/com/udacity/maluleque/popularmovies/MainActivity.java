@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             initHttpRequest(NetworkUtils.TOP_RATED_MOVIES_ENDPPOINT);
         }else{
             movieList = savedInstanceState.getParcelableArrayList(MOVIES);
-            populateMoviesList();
+            populateMoviesList(movieList);
         }
 
     }
@@ -88,6 +88,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 initHttpRequest(NetworkUtils.TOP_RATED_MOVIES_ENDPPOINT);
                 return true;
 
+            case R.id.favorite:
+                retriveFavoriteMovies();
+                return true;
+
                 default:
                     return super.onOptionsItemSelected(item);
         }
@@ -107,11 +111,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void retriveFavoriteMovies() {
+        showProgressBar();
         LiveData<List<Movie>> allFavoriteMovies = database.MovieDao().getAllFavoriteMovies();
         allFavoriteMovies.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-
+                populateMoviesList(movies);
             }
         });
     }
@@ -126,8 +131,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(intent);
     }
 
-    private void populateMoviesList() {
-        MovieAdapter movieAdapter = new MovieAdapter(movieList, MainActivity.this);
+    private void populateMoviesList(List<Movie> moviesList) {
+        showMoviesList();
+        MovieAdapter movieAdapter = new MovieAdapter(moviesList, MainActivity.this);
         moviesRecyclerView.setAdapter(movieAdapter);
     }
 
@@ -178,8 +184,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
                 /*Passing json result to be parsed and create a list of movies*/
                 movieList = DataUtils.parseJson(result);
-                populateMoviesList();
-                showMoviesList();
+                populateMoviesList(movieList);
 
             } else {
                 showErrorMessage("An error occurred. Try again later!");

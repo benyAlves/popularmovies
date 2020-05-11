@@ -64,7 +64,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void addAsFavorite() {
-
+        database.MovieDao().insert(movie);
     }
 
 
