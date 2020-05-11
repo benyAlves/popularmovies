@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 import com.udacity.maluleque.popularmovies.database.AppDatabase;
+import com.udacity.maluleque.popularmovies.database.AppExecutors;
 import com.udacity.maluleque.popularmovies.model.Movie;
 
 public class MovieDetailsActivity extends AppCompatActivity {
@@ -64,7 +65,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void addAsFavorite() {
-        database.MovieDao().insert(movie);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.MovieDao().insert(movie);
+            }
+        });
     }
 
 

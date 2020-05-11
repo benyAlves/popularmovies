@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -23,6 +24,7 @@ public class Movie implements Parcelable {
     @ColumnInfo(name = "release_date")
     private String releaseDate;
 
+    @Ignore
     public Movie(long id, String originalTitle, String posterPath, String synopsis, double rating, String releaseDate) {
         this.id = id;
         this.originalTitle = originalTitle;
