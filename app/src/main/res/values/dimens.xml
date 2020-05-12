@@ -1,3 +1,4 @@
 <resources>
     <dimen name="default_margin">16dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
 </resources>

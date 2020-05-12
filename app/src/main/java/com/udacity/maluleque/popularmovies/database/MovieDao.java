@@ -17,7 +17,7 @@ public interface MovieDao {
     LiveData<List<Movie>> getAllFavoriteMovies();
 
     @Query("SELECT * FROM movie WHERE id = :id")
-    Movie findById(long id);
+    LiveData<Movie> findById(long id);
 
     @Insert
     void insert(Movie movie);

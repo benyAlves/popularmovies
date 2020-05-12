@@ -131,9 +131,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(intent);
     }
 
-    private void populateMoviesList(List<Movie> moviesList) {
+    private void populateMoviesList(List<Movie> movieList) {
         showMoviesList();
-        MovieAdapter movieAdapter = new MovieAdapter(moviesList, MainActivity.this);
+        this.movieList = new ArrayList<>(movieList);
+        MovieAdapter movieAdapter = new MovieAdapter(movieList, MainActivity.this);
         moviesRecyclerView.setAdapter(movieAdapter);
     }
 
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             if (result != null && !result.isEmpty()) {
 
                 /*Passing json result to be parsed and create a list of movies*/
-                movieList = DataUtils.parseJson(result);
+                ArrayList<Movie> movieList = DataUtils.parseJson(result);
                 populateMoviesList(movieList);
 
             } else {
