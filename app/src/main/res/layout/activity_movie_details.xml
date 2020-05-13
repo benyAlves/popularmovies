@@ -110,7 +110,7 @@
 
 
         <include
-            android:id="@+id/reviewSection"
+            android:id="@+id/trailerSection"
             layout="@layout/trailer_section"
             android:layout_width="0dp"
             android:layout_height="200dp"
@@ -125,9 +125,9 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginTop="@dimen/default_margin"
-            app:layout_constraintEnd_toEndOf="@+id/reviewSection"
-            app:layout_constraintStart_toStartOf="@+id/reviewSection"
-            app:layout_constraintTop_toBottomOf="@+id/reviewSection" />
+            app:layout_constraintEnd_toEndOf="@+id/trailerSection"
+            app:layout_constraintStart_toStartOf="@+id/trailerSection"
+            app:layout_constraintTop_toBottomOf="@+id/trailerSection" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.udacity.maluleque.popularmovies.data.DataUtils;
 import com.udacity.maluleque.popularmovies.data.NetworkUtils;
-import com.udacity.maluleque.popularmovies.database.AppDatabase;
 import com.udacity.maluleque.popularmovies.model.Movie;
 
 import java.net.URL;
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar progressBar;
     private RecyclerView moviesRecyclerView;
     private TextView textViewErrorMessage;
-    private AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         setContentView(R.layout.activity_main);
 
         moviesRecyclerView = findViewById(R.id.movies_recycler_view);
-        database = AppDatabase.getInstance(getApplicationContext());
 
         /*Get activity current orientation*/
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -112,11 +110,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private void initViewModel() {
         showProgressBar();
-        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        MainViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(MainViewModel.class);
         viewModel.getAllFavoriteMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
                 populateMoviesList(movies);
+                Log.d(TAG, "Updating from live data");
             }
         });
     }
@@ -184,8 +183,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             if (result != null && !result.isEmpty()) {
 
                 /*Passing json result to be parsed and create a list of movies*/
-                ArrayList<Movie> movieList = DataUtils.parseJson(result);
-                populateMoviesList(movieList);
+                ArrayList<Movie> movies = DataUtils.parseJson(result);
+                populateMoviesList(movies);
 
             } else {
                 showErrorMessage("An error occurred. Try again later!");

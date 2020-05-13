@@ -92,10 +92,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
         recyclerViewReviews.setHasFixedSize(true);
 
         buttonAddAsFavorite = findViewById(R.id.buttonAddAsFavorite);
+        Button buttonShare = findViewById(R.id.buttonShare);
         buttonAddAsFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addAsFavorite();
+            }
+        });
+
+        buttonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareFirstTrailer();
             }
         });
 
@@ -133,6 +141,21 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
             }
 
 
+        }
+    }
+
+    private void shareFirstTrailer() {
+        if (!trailers.isEmpty()) {
+            Trailer trailer = trailers.get(0);
+
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, Uri.parse("http://www.youtube.com/watch?v=" + trailer.getKey()).toString());
+            startActivity(Intent.createChooser(sendIntent, "Hey check this trailer"));
+
+
+        } else {
+            Toast.makeText(this, "No trailers to share", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -222,7 +245,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
         movieViewModel.getMovie().observe(MovieDetailsActivity.this, new Observer<Movie>() {
             @Override
             public void onChanged(Movie movie) {
-                movieViewModel.getMovie().removeObserver(this);
                 if (movie != null) {
                     Drawable drawable = ContextCompat.getDrawable(MovieDetailsActivity.this, R.drawable.ic_favorite_black_24dp);
                     updateFavoriteButtonDrawable(drawable);

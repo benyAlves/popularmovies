@@ -6,10 +6,20 @@
 
     <TextView
         android:id="@+id/textViewTrailers"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trailers"
+        android:layout_alignBaseline="@id/buttonShare"
+        android:text="@string/trailers"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonShare"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="@string/share" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTrailer"
