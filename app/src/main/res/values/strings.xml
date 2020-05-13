@@ -8,4 +8,7 @@
     <string name="favorite_movies">Favorite Movies</string>
     <string name="favorite_movie_message">Movie added as favorite</string>
     <string name="remove_movie_message">Movie removed as favorite</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

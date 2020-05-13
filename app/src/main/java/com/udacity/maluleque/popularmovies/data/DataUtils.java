@@ -1,13 +1,14 @@
 package com.udacity.maluleque.popularmovies.data;
 
 import com.udacity.maluleque.popularmovies.model.Movie;
+import com.udacity.maluleque.popularmovies.model.Review;
+import com.udacity.maluleque.popularmovies.model.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataUtils {
 
@@ -37,6 +38,63 @@ public class DataUtils {
                 movies.add(movie);
             }
             return movies;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /*
+     * @param json Response from network request
+     *
+     * @return Java List of Trailers objects
+     * */
+    public static ArrayList<Trailer> parseTrailerJson(String json) {
+        ArrayList<Trailer> trailers = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray results = jsonObject.getJSONArray("results");
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject trailerObject = results.getJSONObject(i);
+                String id = trailerObject.getString("id");
+                String key = trailerObject.getString("key");
+                String name = trailerObject.getString("name");
+                String site = trailerObject.getString("site");
+                int size = trailerObject.getInt("size");
+                Trailer trailer = new Trailer(id, key, size, name, site);
+                trailers.add(trailer);
+            }
+            return trailers;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /*
+     * @param json Response from network request
+     *
+     * @return Java List of Trailers objects
+     * */
+    public static ArrayList<Review> parseReviewsJson(String json) {
+        ArrayList<Review> reviews = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray results = jsonObject.getJSONArray("results");
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject reviewObject = results.getJSONObject(i);
+                String id = reviewObject.getString("id");
+                String author = reviewObject.getString("author");
+                String content = reviewObject.getString("content");
+                String url = reviewObject.getString("url");
+
+                Review review = new Review(id, author, content, url);
+
+                reviews.add(review);
+            }
+            return reviews;
         } catch (JSONException e) {
             e.printStackTrace();
         }

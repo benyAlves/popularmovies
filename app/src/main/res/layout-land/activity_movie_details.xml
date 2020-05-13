@@ -97,4 +97,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
+    <include
+        layout="@layout/trailer_section"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="@+id/textViewOverview"
+        app:layout_constraintStart_toStartOf="@+id/textViewOverview"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOverview" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

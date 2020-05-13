@@ -107,27 +107,28 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             tools:text=" ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground forming in every town, until an eccentric gets in the way." />
 
-        <TextView
-            android:id="@+id/textViewReviews"
+
+        <include
+            android:id="@+id/reviewSection"
+            layout="@layout/trailer_section"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewOverview"
-            tools:text="Trailers" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewOverview" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewReviews"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+        <include
+            layout="@layout/review_section"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
             android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_marginTop="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewReviews" />
+            app:layout_constraintTop_toBottomOf="@+id/reviewSection" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,10 @@
 # popularmovies
 I built this app as a part of course program project. 
 
-This app to allow users to discover the most popular movies playing.
+This app to allow users to discover the most popular trailers playing.
 
 # Specs
-* Lists a grid list of movies
+* Lists a grid list of trailers
 * Allow your user to change sort order via a setting:
 * The sort order can be by most popular, or by top rated
 * Allow the user to tap on a movie poster and transition to a details screen with some additional information.
