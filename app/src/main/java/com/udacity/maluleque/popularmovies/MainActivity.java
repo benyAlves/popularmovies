@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         textViewErrorMessage = findViewById(R.id.textViewErrorMessage);
 
 
-        if(savedInstanceState == null || savedInstanceState.containsKey(MOVIES)) {
+        if (savedInstanceState == null || !savedInstanceState.containsKey(MOVIES)) {
             initHttpRequest(NetworkUtils.TOP_RATED_MOVIES_ENDPPOINT);
         }else{
             movieList = savedInstanceState.getParcelableArrayList(MOVIES);
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 return true;
 
             case R.id.favorite:
-                retriveFavoriteMovies();
+                initViewModel();
                 return true;
 
                 default:
@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
-    private void retriveFavoriteMovies() {
+    private void initViewModel() {
         showProgressBar();
-        LiveData<List<Movie>> allFavoriteMovies = database.MovieDao().getAllFavoriteMovies();
-        allFavoriteMovies.observe(this, new Observer<List<Movie>>() {
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.getAllFavoriteMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
                 populateMoviesList(movies);

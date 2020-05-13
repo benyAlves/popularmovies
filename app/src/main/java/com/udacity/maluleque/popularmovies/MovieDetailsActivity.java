@@ -17,8 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +34,7 @@ import com.udacity.maluleque.popularmovies.model.Trailer;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MovieDetailsActivity extends AppCompatActivity implements TrailerAdapter.TrailerItemClickListener {
 
@@ -116,7 +117,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
 
             checkIfIsFavorite();
 
-            if (savedInstanceState == null || savedInstanceState.containsKey(TRAILERS)) {
+            if (savedInstanceState == null || !savedInstanceState.containsKey(TRAILERS)) {
                 getTrailers();
             } else {
                 trailers = savedInstanceState.getParcelableArrayList(TRAILERS);
@@ -124,11 +125,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
             }
 
 
-            if (savedInstanceState == null || savedInstanceState.containsKey(REVIEWS)) {
+            if (savedInstanceState == null || !savedInstanceState.containsKey(REVIEWS)) {
                 getReviews();
             } else {
                 reviews = savedInstanceState.getParcelableArrayList(REVIEWS);
-                populateTrailersList(trailers);
+                populateReviewsList(reviews);
             }
 
 
@@ -138,7 +139,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
     private void getTrailers() {
         if (NetworkUtils.hasInternetConnection(this)) {
 
-            URL url = NetworkUtils.buildUrl(String.format(NetworkUtils.TRAILERS_ENDPPOINT, movie.getId()), getApplicationContext());
+            URL url = NetworkUtils.buildUrl(String.format(Locale.getDefault(), NetworkUtils.TRAILERS_ENDPPOINT, movie.getId()), getApplicationContext());
             new TrailersBackgroundTask().execute(url);
 
         } else {
@@ -150,11 +151,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
     private void getReviews() {
         if (NetworkUtils.hasInternetConnection(this)) {
 
-            URL url = NetworkUtils.buildUrl(String.format(NetworkUtils.REVIEWS_ENDPPOINT, movie.getId()), getApplicationContext());
+            URL url = NetworkUtils.buildUrl(String.format(Locale.getDefault(), NetworkUtils.REVIEWS_ENDPPOINT, movie.getId()), getApplicationContext());
             new ReviewsBackgroundTask().execute(url);
 
         } else {
-            showErrorMessage("Connect to the internet to watch reviews");
+            showErrorMessageReview("Connect to the internet to watch reviews");
         }
     }
 
@@ -214,11 +215,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
 
 
     private void checkIfIsFavorite() {
-        final LiveData<Movie> movieLiveData = database.MovieDao().findById(movie.getId());
-        movieLiveData.observe(MovieDetailsActivity.this, new Observer<Movie>() {
+
+        final MovieViewModelFactory factory = new MovieViewModelFactory(database, movie.getId());
+        final MovieViewModel movieViewModel = new ViewModelProvider(this, factory).get(MovieViewModel.class);
+
+        movieViewModel.getMovie().observe(MovieDetailsActivity.this, new Observer<Movie>() {
             @Override
             public void onChanged(Movie movie) {
-                movieLiveData.removeObserver(this);
+                movieViewModel.getMovie().removeObserver(this);
                 if (movie != null) {
                     Drawable drawable = ContextCompat.getDrawable(MovieDetailsActivity.this, R.drawable.ic_favorite_black_24dp);
                     updateFavoriteButtonDrawable(drawable);
@@ -286,9 +290,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(TRAILERS, trailers);
         outState.putParcelableArrayList(REVIEWS, reviews);
-        super.onSaveInstanceState(outState);
+    }
+
+    private String formatRating(double rating) {
+        return String.format(Locale.getDefault(), "%.1f/%.1f", rating, 10.0);
     }
 
     private class TrailersBackgroundTask extends AsyncTask<URL, Void, String> {
@@ -312,8 +320,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
 
                 /*Passing json result to be parsed and create a list of trailers*/
                 ArrayList<Trailer> trailers = DataUtils.parseTrailerJson(result);
-                if (!trailers.isEmpty()) {
+                if (trailers != null) {
                     populateTrailersList(trailers);
+                    if (trailers.isEmpty()) {
+                        showErrorMessage("No trailers");
+                    }
                 } else {
                     showErrorMessage("No trailers");
                 }
@@ -346,8 +357,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
                 /*Passing json result to be parsed and create a list of trailers*/
                 ArrayList<Review> reviews = DataUtils.parseReviewsJson(result);
 
-                if (!reviews.isEmpty()) {
+                if (reviews != null) {
                     populateReviewsList(reviews);
+                    if (reviews.isEmpty()) {
+                        showErrorMessageReview("No reviews");
+                    }
                 } else {
                     showErrorMessageReview("No reviews");
                 }
@@ -356,10 +370,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
                 showErrorMessageReview("Try again later!");
             }
         }
-    }
-
-    private String formatRating(double rating) {
-        return String.format("%.1f/%.1f", rating, 10.0);
     }
 
 }

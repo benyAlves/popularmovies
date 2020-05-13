@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -113,10 +114,9 @@
             layout="@layout/trailer_section"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewOverview"
+            app:layout_constraintStart_toStartOf="@+id/textViewOverview"
             app:layout_constraintTop_toBottomOf="@+id/textViewOverview" />
 
 
@@ -124,10 +124,9 @@
             layout="@layout/review_section"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/reviewSection"
+            app:layout_constraintStart_toStartOf="@+id/reviewSection"
             app:layout_constraintTop_toBottomOf="@+id/reviewSection" />
 
 

@@ -41,7 +41,7 @@ public class DataUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
 
@@ -69,7 +69,7 @@ public class DataUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
 
@@ -98,7 +98,7 @@ public class DataUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private static String buildPosterUrl(String posterPath) {
